@@ -1,0 +1,4 @@
+echo now publishing changes with $1 as comments
+git add .
+git commit -a -m "$1"
+git push
