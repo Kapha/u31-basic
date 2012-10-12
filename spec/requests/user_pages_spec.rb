@@ -4,6 +4,23 @@ describe "User pages" do
 
   subject { page }
 
+  describe "profile page" do
+    let(:user) { FactoryGirl.create(:user) }
+    let!(:m1) { FactoryGirl.create(:micropost, user: user, content: "Foo") }
+    let!(:m2) { FactoryGirl.create(:micropost, user: user, content: "Bar") }
+
+    before { visit user_path(user) }
+
+    it { should have_selector('h1', text: user.firstname) }
+    it { should have_selector('title', text: user.firstname) }
+
+    describe "microposts" do
+      it { should have_content(m1.content) }
+      it { should have_content(m2.content) }
+      it { should have_content(user.microposts.count) }
+    end
+  end
+
   describe "index" do
  
    let(:user) { FactoryGirl.create(:user) }
@@ -26,6 +43,21 @@ describe "User pages" do
           page.should have_selector('li', text: user.firstname)
         end
       end
+    end
+
+    describe "admin links" do
+      it {should_not have_link('admin') }
+
+      describe "as an admin user" do
+        let(:admin) { FactoryGirl.create(:admin) }
+        before do
+          sign_in admin
+          visit users_path
+        end
+
+      it { should have_link('admin') }
+      end
+      it { should_not have_link('admin') }
     end
 
     describe "delete links" do

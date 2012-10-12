@@ -5,5 +5,7 @@
   <% if current_user.admin? && !current_user?(user) %>
       | <%= link_to "delete", user, method: :delete,
                                     data: { confirm: "You sure?" } %>
+      | <%= link_to "admin", user, method: :admin,
+                                   data: { confirm: "This will give user full admin rights. Are you shure?" } %>
   <% end %>
 </li>
