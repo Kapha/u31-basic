@@ -99,9 +99,9 @@ describe "User pages" do
           visit users_path
         end
 
-      it { should have_link('admin') }
+      it { should have_link('Admin') }
       end
-      it { should_not have_link('admin') }
+      it { should_not have_link('Admin') }
     end
 
     describe "delete links" do
